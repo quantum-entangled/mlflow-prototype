@@ -1,0 +1,58 @@
+name: mlflow-prototype
+
+services:
+  # PostgreSQL database
+  postgres-db:
+    container_name: postgres-db
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-mlflow-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mlflow-password}
+      POSTGRES_DB: ${POSTGRES_DB:-mlflow-metadata}
+    ports:
+      - ${POSTGRES_PORT:-5432}:${POSTGRES_PORT:-5432}
+    volumes:
+      - type: bind
+        source: ./${POSTGRES_DATA_PATH:-postgresql/data}
+        target: /var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${POSTGRES_DB:-mlflow-metadata} \
+              -U $${POSTGRES_USER:-mlflow-user}" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+  # MLflow tracking server
+  mlflow-tracking:
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    container_name: mlflow-tracking
+    image: mlflow-tracking:latest
+    environment:
+      MLFLOW_HOST: ${MLFLOW_HOST:-0.0.0.0}
+      MLFLOW_PORT: ${MLFLOW_PORT:-8080}
+      MLFLOW_BACKEND_STORE_URI: "postgresql://${POSTGRES_USER:-mlflow-user}:\
+                                ${POSTGRES_PASSWORD:-mlflow-password}\
+                                @postgres-db:\
+                                ${POSTGRES_PORT:-5432}/\
+                                ${POSTGRES_DB:-mlflow-metadata}"
+      MLFLOW_ARTIFACTS_DESTINATION: ./${MLFLOW_ARTIFACTS_DESTINATION:-artifacts}
+    build:
+      context: ./
+      args:
+        MLFLOW_APP_PATH: ${MLFLOW_APP_PATH:-/code}
+        MLFLOW_VENV_NAME: ${MLFLOW_VENV_NAME:-.venv}
+    ports:
+      - ${MLFLOW_PORT:-8080}:${MLFLOW_PORT:-8080}
+    volumes:
+      - type: bind
+        source: ./${MLFLOW_ARTIFACTS_DESTINATION:-artifacts}
+        target: ${MLFLOW_APP_PATH:-/code}/${MLFLOW_ARTIFACTS_DESTINATION:-artifacts}
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -f \
+              http://${MLFLOW_HOST:-0.0.0.0}:\
+              ${MLFLOW_PORT:-8080}/health || \
+              exit 1" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
