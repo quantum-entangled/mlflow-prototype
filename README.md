@@ -3,7 +3,7 @@ This repository provides a simple Docker configuration for running the MLflow Tr
 ## Set Up MLflow via Docker
 
 1. Install Docker for your system: [Docker Installation](https://docs.docker.com/engine/install/).
-2. Navigate to the project directory using the terminal or command prompt.
+2. Clone the repository to your local machine. Navigate to the project directory using the terminal or command prompt.
 3. Run `docker compose build --no-cache` the first time you run the project or if you want to completely rebuild it. Setting up the containers might take a while.
 4. Every time you want to start the containers, run `docker compose up` or use Docker Desktop. The startup of all services might take a while. The MLflow tracking server and UI will run at the host and port specified by your `.env` file (defaults to `localhost:8080`).
 5. To stop the containers, run `docker compose stop` in a separate terminal; press `Ctrl+C` in the terminal you started it from; or use Docker Desktop.
