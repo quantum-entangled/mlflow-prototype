@@ -34,4 +34,6 @@ Otherwise, you can rely on the default values.
 5. Run `pip install -r requirements.txt` to install the dependencies.
 6. Execute scripts in the `examples` folder and track the results on your MLflow server.
 
+---
+
 The project might create additional folders while executing these steps. The default setup includes: `postgresql` for the backend database files, `artifacts` for model artifacts of different runs, `mlruns` for MLflow runs metadata, and `checkpoints` for saved models during TensorFlow training.
