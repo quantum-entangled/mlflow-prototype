@@ -28,8 +28,8 @@ Otherwise, you can rely on the default values.
 ## Set Up the Environment to Run the Examples
 
 1. Install Python for your system: [Official Website](https://www.python.org/downloads/).
-2. Navigate to the project directory using the terminal or command prompt.
-3. Run `python -m venv .venv` to create the virtual environment. Ensure that Python is on your `PATH`.
+2. Ensure that you are in the project directory and Python is on your `PATH`.
+3. Run `python -m venv .venv` to create the virtual environment.
 4. Activate the virtual environment by running either `.venv\Scripts\activate` (Windows) or `source .venv/bin/activate` / `. .venv/bin/activate` (Unix-like).
 5. Run `pip install -r requirements.txt` to install the dependencies.
 6. Execute scripts in the `examples` folder and track the results on your MLflow server.
