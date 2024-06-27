@@ -15,9 +15,7 @@ mlflow.tensorflow.autolog(log_models=False, checkpoint=False)
 
 # Prepare data for a 2-class classification
 X_train = np.random.uniform(size=[1000, 28, 28, 3])
-X_test = np.random.uniform(size=[500, 28, 28, 3])
 y_train = np.random.randint(2, size=1000)
-y_test = np.random.randint(2, size=500)
 
 # Create a model
 model = keras.Sequential(
