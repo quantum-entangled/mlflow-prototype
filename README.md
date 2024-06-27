@@ -34,6 +34,4 @@ Otherwise, you can rely on the default values.
 5. Run `pip install -r requirements.txt` to install the dependencies.
 6. Execute scripts in the `examples` folder and track the results on your MLflow server.
 
----
-
-The project might create additional folders while executing these steps. The default setup includes: `postgresql` for the backend database files, `artifacts` for model artifacts of different runs, `mlruns` for MLflow runs metadata, and `checkpoints` for saved models during TensorFlow training.
+> Docker will mount your local directory folders to the ones inside the containers for backend metadata and artifact storage. This means that any changes made on your side or inside the container will immediately show up on the other side without any overhead to transfer these files. The default mount folders on the local side are `postgresql` and `artifacts`. While executing the project, additional folders might also be created, including `mlruns` for MLflow runs metadata and `checkpoints` for saved models during TensorFlow training.
